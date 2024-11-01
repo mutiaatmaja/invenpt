@@ -5,5 +5,5 @@ Buat Database dulu, setelah itu buka terminal
 <li>composer install</li>
 <li>cp .env.example .env</li>
 <li>php artisan key:generate</li>
-
+<li>php artisan migrate:fresh --seed</li>
 </ol>
