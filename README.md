@@ -6,4 +6,5 @@ Buat Database dulu, setelah itu buka terminal
 <li>cp .env.example .env</li>
 <li>php artisan key:generate</li>
 <li>php artisan migrate:fresh --seed</li>
+<li>php artisan storage:link</li>
 </ol>
