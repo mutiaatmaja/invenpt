@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Livewire\Barang;
+namespace App\Livewire;
 
-use App\Models\Barang;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
+use App\Models\Penjualan as Barang;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
 
-class Index extends Component
+class Penjualan extends Component
 {
     use LivewireAlert, WithFileUploads;
     public $suka, $selectedMode;
     //wiremodel dari barang/index.blade.php
-    public $nama_barang, $jumlah, $ukuran, $foto_barang, $tanggal_masuk, $barang_selected;
+    public $nama_barang, $jumlah, $ukuran, $foto_barang, $tanggal_masuk, $barang_selected, $harga;
     public function tambah()
     {
-        $this->reset(['nama_barang', 'jumlah', 'ukuran', 'foto_barang', 'tanggal_masuk']);
+        $this->reset(['nama_barang', 'jumlah', 'ukuran', 'foto_barang', 'tanggal_masuk', 'harga']);
         $this->selectedMode = 'tambah';
     }
     public function batal()
@@ -30,7 +30,8 @@ class Index extends Component
                 'jumlah' => 'required',
                 'ukuran' => 'required',
                 'foto_barang' => 'required',
-                'tanggal_masuk' => 'required'
+                'tanggal_masuk' => 'required',
+                'harga' => 'required'
             ]);
             $simpan = new Barang();
         } else {
@@ -38,7 +39,8 @@ class Index extends Component
                 'nama_barang' => 'required',
                 'jumlah' => 'required',
                 'ukuran' => 'required',
-                'tanggal_masuk' => 'required'
+                'tanggal_masuk' => 'required',
+                'harga' => 'required'
             ]);
             $simpan = $this->barang_selected;
         }
@@ -50,10 +52,11 @@ class Index extends Component
             $this->foto_barang->store('gambarbarang', 'public');
             $simpan->foto = $this->foto_barang->hashName();
         }
+        $simpan->harga = $this->harga;
         $simpan->tanggal_masuk = $this->tanggal_masuk;
         $simpan->save();
 
-        $this->reset(['nama_barang', 'jumlah', 'ukuran', 'foto_barang', 'tanggal_masuk', 'selectedMode']);
+        $this->reset(['nama_barang', 'jumlah', 'ukuran', 'foto_barang', 'tanggal_masuk', 'selectedMode', 'harga']);
         $this->alert('success', 'Data Berhasil Disimpan');
     }
     public function edit($id)
@@ -63,6 +66,7 @@ class Index extends Component
         $this->jumlah = $this->barang_selected->jumlah;
         $this->ukuran = $this->barang_selected->ukuran;
         $this->tanggal_masuk = $this->barang_selected->tanggal_masuk;
+        $this->harga = $this->barang_selected->harga;
         $this->selectedMode = 'edit';
     }
     public function hapus($id)
@@ -71,10 +75,11 @@ class Index extends Component
         $barang->delete();
         $this->alert('success', 'Data Berhasil Dihapus');
     }
+
     public function render()
     {
         $barangs = Barang::all();
-        return view('livewire.barang.index')->with([
+        return view('livewire.penjualan')->with([
             'barangs' => $barangs
         ]);
     }

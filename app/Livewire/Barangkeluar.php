@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Livewire\Barang;
+namespace App\Livewire;
 
-use App\Models\Barang;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
+use App\Models\Barangkeluar as Barang;
 
-class Index extends Component
+class Barangkeluar extends Component
 {
     use LivewireAlert, WithFileUploads;
     public $suka, $selectedMode;
@@ -74,7 +74,7 @@ class Index extends Component
     public function render()
     {
         $barangs = Barang::all();
-        return view('livewire.barang.index')->with([
+        return view('livewire.barangkeluar')->with([
             'barangs' => $barangs
         ]);
     }

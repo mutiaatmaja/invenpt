@@ -1,12 +1,12 @@
 <div>
 	<x-loading />
 	<div class="table-container mt-4">
-		<h5 class="mb-3">Barang Masuk</h5>
+		<h5 class="mb-3">Barang Keluar</h5>
 		<div class="d-flex justify-content-between mb-3">
 			@if ($selectedMode == 'tambah')
 				<button class="btn btn-success" wire:click='batal'>Batal</button>
 			@else
-				<button class="btn btn-pink" wire:click='tambah'>+ Tambah Barang</button>
+				<button class="btn btn-pink" wire:click='tambah'>+ Tambah Barang Keluar</button>
 			@endif
 
 			<div class="d-flex">

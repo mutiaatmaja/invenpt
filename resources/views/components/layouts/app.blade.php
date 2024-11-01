@@ -16,12 +16,40 @@
 			background-color: #f0f0f0;
 		}
 
+		/* Gaya untuk loading bar */
+		.loading-bar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 6px;
+			/* Ketebalan garis diperbesar */
+			width: 100%;
+			background: linear-gradient(90deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 0.8) 50%, rgba(255, 0, 0, 0) 100%);
+			animation: loading 2s infinite ease-in-out;
+			z-index: 9999;
+		}
+
+		/* Animasi bolak-balik untuk loading bar */
+		@keyframes loading {
+			0% {
+				transform: translateX(-100%);
+			}
+
+			50% {
+				transform: translateX(0%);
+			}
+
+			100% {
+				transform: translateX(100%);
+			}
+		}
+
 		.sidebar {
 			background-color: #33cc33;
 			height: 100vh;
 			color: white;
 			padding-top: 20px;
-			width: 300px;
+			width: 350px;
 		}
 
 		.sidebar .nav-link {
@@ -37,6 +65,7 @@
 			/* Tambah efek bayangan */
 			border-radius: 5px;
 			margin: 5px 0;
+			width: 100%;
 		}
 
 		.sidebar .nav-link:hover {
@@ -109,11 +138,12 @@
 	<div class="d-flex">
 		<!-- Sidebar -->
 		<div class="sidebar d-flex flex-column align-items-center">
-			<img class="mb-4" src="gambar/logo.png" alt="Logo" style="width: 80px;">
+			<img class="mb-4" src="{{ asset('gambar/logo.png') }}" alt="Logo" style="width: 80px;">
 			<h5 class="px-3 text-center">Sistem Informasi Inventory</h5>
 			<p class="px-3 text-center">PT. Karya Indah menu{{ $selectedMenu ?? '' }}</p>
-			<nav class="nav flex-column w-150 mt-4">
-				<a class="nav-link {{ Request::is('barang*') ? 'active' : '' }}" href="{{ url('/barang') }}" wire:navigate>
+			<nav class="nav flex-column mt-4">
+				<a class="nav-link {{ Request::is('barang/masuk*') ? 'active' : '' }}" href="{{ url('/barang/masuk') }}"
+					wire:navigate>
 					<!-- Ikon Barang Masuk -->
 					<svg class="bi bi-box-arrow-in-right mr-2" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
 						xmlns="http://www.w3.org/2000/svg">
@@ -126,7 +156,8 @@
 					</svg>
 					Barang Masuk
 				</a>
-				<a class="nav-link" href="#">
+				<a class="nav-link {{ Request::is('barang/keluar*') ? 'active' : '' }}" href="{{ url('/barang/keluar') }}"
+					wire:navigate>
 					<!-- Ikon Barang Keluar -->
 					<svg class="bi bi-box-arrow-in-left mr-2" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
 						xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +168,8 @@
 					</svg>
 					Barang Keluar
 				</a>
-				<a class="nav-link" href="#">
+				<a class="nav-link {{ Request::is('transaksi/penjualan*') ? 'active' : '' }}"
+					href="{{ url('/transaksi/penjualan') }}" wire:navigate>
 					<!-- Ikon Transaksi Penjualan -->
 					<svg class="bi bi-cart mr-2" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
 						xmlns="http://www.w3.org/2000/svg">
@@ -147,7 +179,8 @@
 					</svg>
 					Transaksi Penjualan
 				</a>
-				<a class="nav-link" href="#">
+				<a class="nav-link {{ Request::is('transaksi/pembelian*') ? 'active' : '' }}"
+					href="{{ url('/transaksi/pembelian') }}" wire:navigate>
 					<!-- Ikon Transaksi Pembelian -->
 					<svg class="bi bi-receipt mr-2" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
 						xmlns="http://www.w3.org/2000/svg">
@@ -157,25 +190,27 @@
 					</svg>
 					Transaksi Pembelian
 				</a>
-				<a class="nav-link" href="#">
-					<!-- Ikon Laporan -->
-					<svg class="bi bi-file-earmark-text mr-2" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
-						xmlns="http://www.w3.org/2000/svg">
-						<path d="M5 10.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-						<path d="M6.5 7a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3z" />
-						<path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zM10.5 3v2a1 1 0 0 0 1 1h2l-3-3z" />
-					</svg>
-					Laporan
-				</a>
-				<a class="nav-link" href="#">
-					<!-- Ikon Karyawan -->
-					<svg class="bi bi-person-fill mr-2" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
-						xmlns="http://www.w3.org/2000/svg">
-						<path d="M3 14s-1 0-1-1 1-2 4-2 4 2 4 2 0 1-1 1H3zm1-9a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-						<path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4c0 2.5-2 4-4 4S4 6.5 4 4a4 4 0 0 1 4-4z" />
-					</svg>
-					Karyawan
-				</a>
+				@role('admin')
+					<a class="nav-link {{ Request::is('laporan*') ? 'active' : '' }}" href="{{ url('/laporan') }}" wire:navigate>
+						<!-- Ikon Laporan -->
+						<svg class="bi bi-file-earmark-text mr-2" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
+							xmlns="http://www.w3.org/2000/svg">
+							<path d="M5 10.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+							<path d="M6.5 7a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3z" />
+							<path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zM10.5 3v2a1 1 0 0 0 1 1h2l-3-3z" />
+						</svg>
+						Laporan
+					</a>
+					<a class="nav-link {{ Request::is('karyawan*') ? 'active' : '' }}" href="{{ url('/karyawan') }}" wire:navigate>
+						<!-- Ikon Karyawan -->
+						<svg class="bi bi-person-fill mr-2" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
+							xmlns="http://www.w3.org/2000/svg">
+							<path d="M3 14s-1 0-1-1 1-2 4-2 4 2 4 2 0 1-1 1H3zm1-9a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+							<path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4c0 2.5-2 4-4 4S4 6.5 4 4a4 4 0 0 1 4-4z" />
+						</svg>
+						Karyawan
+					</a>
+				@endrole
 			</nav>
 		</div>
 
@@ -185,7 +220,7 @@
 				<h5>Sistem Informasi Inventory PT. Karya Indah</h5>
 				<div class="dropdown">
 					<button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" type="button" aria-expanded="false">
-						Admin
+						{{ Auth::user()->name }}
 					</button>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>

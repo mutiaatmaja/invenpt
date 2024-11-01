@@ -1,12 +1,12 @@
 <div>
 	<x-loading />
 	<div class="table-container mt-4">
-		<h5 class="mb-3">Barang Masuk</h5>
+		<h5 class="mb-3">Transaksi Penjualan</h5>
 		<div class="d-flex justify-content-between mb-3">
 			@if ($selectedMode == 'tambah')
 				<button class="btn btn-success" wire:click='batal'>Batal</button>
 			@else
-				<button class="btn btn-pink" wire:click='tambah'>+ Tambah Barang</button>
+				<button class="btn btn-pink" wire:click='tambah'>+ Tambah Transaksi Penjualan</button>
 			@endif
 
 			<div class="d-flex">
@@ -76,6 +76,17 @@
 						@enderror
 					</div>
 				</div>
+				<div class="row align-items-center mb-3">
+					<label class="col-sm-2 form-label" for="harga">Harga</label>
+					<div class="col-sm-10">
+						<input class="form-control @error('harga') is-invalid @enderror" id="harga" type="number" wire:model="harga">
+						@error('harga')
+							<div class="invalid-feedback">
+								Tanggal masuk harus diisi
+							</div>
+						@enderror
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-10 offset-sm-2">
 						<button class="btn btn-primary" type="submit" wire:loading.attr='disabled'>Simpan</button>
@@ -93,6 +104,7 @@
 					<th>Ukuran</th>
 					<th>Foto Nota</th>
 					<th>Tanggal Penjualan</th>
+					<th>Harga</th>
 					<th>Aksi</th>
 				</tr>
 			</thead>
@@ -108,6 +120,7 @@
 								alt="{{ $barang->nama_barang }}" style="max-width: 100px">
 						</td>
 						<td>{{ $barang->tanggal_masuk }}</td>
+						<td>{{ $barang->harga }}</td>
 						<td>
 							<div class="d-flex">
 								<button class="btn btn-warning me-2" wire:click='edit({{ $barang->id }})'>Edit</button>
