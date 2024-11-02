@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CetakController;
 use App\Livewire\Barang\Index as BarangIndex;
 use App\Livewire\Barangkeluar;
 use App\Livewire\Karyawan;
@@ -28,3 +29,6 @@ Route::group(['prefix' => 'transaksi', 'middleware' => ['auth']], function () {
 
 Route::get('/laporan', Laporan::class)->middleware(['auth', 'role:admin'])->name('laporan');
 Route::get('/karyawan', Karyawan::class)->middleware(['auth', 'role:admin'])->name('karyawan');
+
+Route::get('/cetak/{apa}', [CetakController::class, 'cetak'])->middleware(['auth', 'role:admin'])->name('cetak');
+Route::get('/excel/{apa}', [CetakController::class, 'excel'])->middleware(['auth', 'role:admin'])->name('excel');

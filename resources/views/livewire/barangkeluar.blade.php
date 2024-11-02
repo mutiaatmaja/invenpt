@@ -91,7 +91,7 @@
 					<th>Nama Barang</th>
 					<th>Jumlah</th>
 					<th>Ukuran</th>
-					<th>Foto Nota</th>
+					<th>Foto</th>
 					<th>Tanggal Penjualan</th>
 					<th>Aksi</th>
 				</tr>

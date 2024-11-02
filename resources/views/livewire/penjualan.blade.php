@@ -79,7 +79,7 @@
 				<div class="row align-items-center mb-3">
 					<label class="col-sm-2 form-label" for="harga">Harga</label>
 					<div class="col-sm-10">
-						<input class="form-control @error('harga') is-invalid @enderror" id="harga" type="number" wire:model="harga">
+						<input class="form-control @error('harga') is-invalid @enderror" id="harga" type="text" wire:model="harga">
 						@error('harga')
 							<div class="invalid-feedback">
 								Tanggal masuk harus diisi

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('ukuran');
             $table->string('foto');
             $table->date('tanggal_masuk');
-            $table->integer('harga');
+            $table->string('harga');
             $table->timestamps();
         });
     }
